@@ -1,22 +1,24 @@
-# feedbacker
+# Feedbacker
 > Project is currently under development.
 
 Feedback system to record feedback of customers. This is for marketing purpose.
 
 ## Introduction
-Small companies needs some software to keep track of their customer and provided services (communication purpose). This system is developed to fulfil their needs. The companies which are providing Software Services like Web Development, App Development, SEO, ERP, Desktop Software, Mobile Software - they can use this project for their internal purpose.
+Small companies needs some software to keep track of their customers and provided services (communication purpose). This system is developed to fulfil their needs. The companies which are providing Software Services like Web Development, App Development, SEO, ERP, Desktop Software, Mobile Software - they can use this project for their internal purpose.
 
 The executives of your company can call to customer from phone, and record their feedbacks and requirements in this portal.
 
 ## Requirements
 1. PHP 5.6 or greater
 2. MySQL 5
-3. [Composer](https://getcomposer.org) 
+3. [Composer](https://getcomposer.org) - To install php libraries.
+4. [Gulp](https://gulpjs.com/) - To minify and uglify assets, js, css. Not necessary and will remove in next version.
 
-## Used PHP libraries
-1. [Microweber Screen](https://github.com/microweber/screen) : To capture screen-shot of website.
-2. [Akeneo Spreadsheet Parser](https://github.com/akeneo-labs/spreadsheet-parser) : To import huge amount of records from excel sheet.
-3. [TCPDF](https://github.com/tecnickcom/tcpdf) : To export as PDF.
+## Used PHP Framework & libraries
+1. [CodeIgniter](https://codeigniter.com/) 3.1.6
+2. [Microweber Screen](https://github.com/microweber/screen) : To capture screen-shot of website.
+3. [Akeneo Spreadsheet Parser](https://github.com/akeneo-labs/spreadsheet-parser) : To import huge amount of records from excel sheet.
+4. [TCPDF](https://github.com/tecnickcom/tcpdf) : To export as PDF.
 
 ## How to Install
 
@@ -26,7 +28,7 @@ The executives of your company can call to customer from phone, and record their
 4. Done!
 
 ## Login Credentials
-System Administrator
+Hit url in your web browser ```http://localhost/feedbacker/```, login screen will appear. Just login with following credentials.
 
 Email : admin@example.com
 
