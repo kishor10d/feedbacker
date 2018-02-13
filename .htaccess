@@ -1,0 +1,111 @@
+
+<IfModule mod_php5.c>
+
+############################################
+## enable resulting html compression
+
+    #php_flag zlib.output_compression on
+
+</IfModule>
+
+<IfModule mod_php7.c>
+
+############################################
+## enable resulting html compression
+
+    #php_flag zlib.output_compression on
+
+</IfModule>
+
+<IfModule mod_deflate.c>
+
+############################################
+## enable apache served files compression
+## http://developer.yahoo.com/performance/rules.html#gzip
+
+	# Compress HTML, CSS, JavaScript, Text, XML and fonts
+	  AddOutputFilterByType DEFLATE application/javascript
+	  AddOutputFilterByType DEFLATE application/rss+xml
+	  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+	  AddOutputFilterByType DEFLATE application/x-font
+	  AddOutputFilterByType DEFLATE application/x-font-opentype
+	  AddOutputFilterByType DEFLATE application/x-font-otf
+	  AddOutputFilterByType DEFLATE application/x-font-truetype
+	  AddOutputFilterByType DEFLATE application/x-font-ttf
+	  AddOutputFilterByType DEFLATE application/x-javascript
+	  AddOutputFilterByType DEFLATE application/xhtml+xml
+	  AddOutputFilterByType DEFLATE application/xml
+	  AddOutputFilterByType DEFLATE font/opentype
+	  AddOutputFilterByType DEFLATE font/otf
+	  AddOutputFilterByType DEFLATE font/ttf
+	  AddOutputFilterByType DEFLATE image/svg+xml
+	  AddOutputFilterByType DEFLATE image/x-icon
+	  AddOutputFilterByType DEFLATE text/css
+	  AddOutputFilterByType DEFLATE text/html
+	  AddOutputFilterByType DEFLATE text/javascript
+	  AddOutputFilterByType DEFLATE text/plain
+	  AddOutputFilterByType DEFLATE text/xml
+
+    # Insert filter on all content
+    ###SetOutputFilter DEFLATE
+    # Insert filter on selected content types only
+    #AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+
+    # Netscape 4.x has some problems...
+    #BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+    # Netscape 4.06-4.08 have some more problems
+    #BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+    # MSIE masquerades as Netscape, but it is fine
+    #BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Don't compress images
+    #SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+    # Make sure proxies don't deliver the wrong content
+    #Header append Vary User-Agent env=!dont-vary
+
+</IfModule>
+
+<IfModule mod_expires.c>
+
+############################################
+## Add default Expires header
+## http://developer.yahoo.com/performance/rules.html#expires
+
+	ExpiresActive On
+	
+    ExpiresDefault "access plus 1 year"
+    ExpiresByType text/html A0
+    ExpiresByType text/plain A0
+	# Images
+	
+	ExpiresByType image/jpg "access plus 1 year"
+	ExpiresByType image/jpeg "access plus 1 year"
+	ExpiresByType image/gif "access plus 1 year"
+	ExpiresByType image/png "access plus 1 year"
+	ExpiresByType text/css "access plus 1 month"
+	ExpiresByType application/pdf "access plus 1 month"
+	ExpiresByType text/x-javascript "access plus 1 month"
+	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+	ExpiresByType image/x-icon "access plus 1 year"
+
+</IfModule>
+
+############################################
+## Add custom headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+	Header set Connection keep-alive
+</IfModule>
+
+
+DirectoryIndex index.php
+RewriteEngine on
+ 
+RewriteCond $1 !^(index\.php|(.*)\.swf|forums|images|css|downloads|jquery|js|robots\.txt|favicon\.ico)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./index.php?$1 [L,QSA]

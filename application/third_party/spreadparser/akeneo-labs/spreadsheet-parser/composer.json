@@ -1,0 +1,43 @@
+{
+    "name": "akeneo-labs/spreadsheet-parser",
+    "description": "Akeneo Spreadsheet parser. Reads XLXS files from Microsoft Excel and Open Office",
+    "keywords": ["akeneo", "excel", "xlsx", "reader", "parser", "spreadsheet"],
+    "homepage": "http://akeneo.com",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Antoine Guigan",
+            "email": "antoine@akeneo.com",
+            "homepage": "http://akeneo.com"
+        },
+        {
+            "name": "Matthieu Viel",
+            "email": "matthieu.viel@akeneo.com",
+            "homepage": "http://akeneo.com"
+        },
+        {
+            "name": "JM Leroux",
+            "email": "jean-marie.leroux@akeneo.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/options-resolver": "~2.6 || ~3.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Akeneo\\Component\\SpreadsheetParser\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.2.x-dev"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
