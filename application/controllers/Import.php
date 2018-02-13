@@ -1,10 +1,8 @@
-<?php
-
-if (! defined ( 'BASEPATH' ))
-	exit ( 'No direct script access allowed' );
+<?php if (! defined ( 'BASEPATH' )) exit ( 'No direct script access allowed' );
 
 require APPPATH . '/libraries/BaseController.php';
 require APPPATH . '/third_party/vendor/autoload.php';
+require APPPATH . '/libraries/mypdf.php';
 
 use Akeneo\Component\SpreadsheetParser\SpreadsheetParser;
 
@@ -117,22 +115,7 @@ class Import extends BaseController {
 			}
 		}
 	}
-	
-	/**
-	 * This function used to get resource for php excel
-	 */
-	function gettingResources() {
-		ini_set ( 'display_errors', TRUE );
-		ini_set ( 'display_startup_errors', TRUE );
 		
-		if (PHP_SAPI == 'cli') {
-			die ( 'This example should only be run from a Web Browser' );
-		}
-		
-		require_once dirname ( __FILE__ ) . '/../third_party/PHPExcel/Classes/PHPExcel.php';
-		include dirname ( __FILE__ ) . '/../third_party/PHPExcel/Classes/PHPExcel/IOFactory.php';
-	}
-	
 	/**
 	 * This function used to upload raw data to database
 	 */
@@ -308,149 +291,6 @@ class Import extends BaseController {
 		if ($error_file_path != "") {
 			return $error_file_path;
 		}
-	}
-	
-	/**
-	 * This function used to get records using PHPExcel
-	 * @param unknown $objPHPExcel
-	 * @param unknown $file_name
-	 */
-	function importingRaws($objPHPExcel, $file_name) {
-		set_time_limit ( 0 );
-		$error_file_path = "";
-		$file_path = "./" . EXCEL_FILE . $file_name;
-		$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;
-		$cacheSettings = array (
-				'memoryCacheSize' => '200MB' 
-		);
-		PHPExcel_Settings::setCacheStorageMethod ( $cacheMethod, $cacheSettings );
-		
-		$inputFileType = PHPExcel_IOFactory::identify ( $file_path );
-		$objReader = PHPExcel_IOFactory::createReader ( $inputFileType );
-		$objReader->setReadDataOnly ( true );
-		$objPHPExcel = $objReader->load ( $file_path );
-		
-		$sheet = $objPHPExcel->getSheet ( 0 );
-		$highestRow = $sheet->getHighestRow ();
-		$highestColumn = "O";
-		$errRecords = array ();
-		$successRecords = array ();
-		$date = date ( 'Y-m-d' );
-		
-		for($row = 2; $row <= $highestRow; $row ++) {
-			$rowData = $sheet->rangeToArray ( 'A' . $row . ':' . $highestColumn . $row, NULL, TRUE, TRUE );
-			
-			$rowDomain = $sheet->getCell ( 'B' . $row )->getValue ();
-			
-			$isExists = $this->import_model->checkDomainExists ( $rowDomain );
-			
-			if (empty ( $isExists )) {
-				$push_records = array (
-						"domain_name" => $rowData [0] [1],
-						"create_date" => date ( "Y-m-d H:i:s", strtotime ( $rowData [0] [2] ) ),
-						"expiry_date" => date ( "Y-m-d H:i:s", strtotime ( $rowData [0] [3] ) ),
-						"domain_registrar_name" => $rowData [0] [4],
-						"registrant_name" => $rowData [0] [5],
-						"registrant_company" => $rowData [0] [6],
-						"registrant_address" => $rowData [0] [7],
-						"registrant_city" => $rowData [0] [8],
-						"registrant_state" => $rowData [0] [9],
-						"registrant_zip" => $rowData [0] [10],
-						"registrant_country" => $rowData [0] [11],
-						"registrant_email" => $rowData [0] [12],
-						"registrant_phone" => $rowData [0] [13],
-						"registrant_fax" => $rowData [0] [14],
-						"created_by" => $this->vendorId,
-						"created_dtm" => date ( 'Y-m-d H:i:s' ) 
-				);
-				
-				array_push ( $successRecords, $push_records );
-			} else {
-				array_push ( $errRecords, $rowData [0] );
-			}
-		}
-		
-		if (! empty ( $successRecords )) {
-			$this->import_model->pushSuccessRecords ( $successRecords );
-		}
-		
-		if (! empty ( $errRecords )) {
-			$error_file_path = $this->createErrorRecords ( $errRecords );
-		}
-		
-		if ($error_file_path != "") {
-			return $error_file_path;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * This function used to create error records
-	 * @param unknown $errRecords
-	 * @return string
-	 */
-	function createErrorRecords($errRecords) {
-		set_time_limit ( 0 );
-		$this->load->library ( 'excel' );
-		
-		$styleArray = array (
-				'font' => array (
-						'color' => array (
-								'rgb' => 'FF0000' 
-						) 
-				) 
-		);
-		
-		$this->excel->getActiveSheet ()->setTitle ( "Error Records" );
-		$this->excel->getActiveSheet ()->setCellValue ( 'A1', 'num' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'B1', 'domain_name' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'C1', 'create_date' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'D1', 'expiry_date' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'E1', 'domain_registrar_name' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'F1', 'registrant_name' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'G1', 'registrant_company' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'H1', 'registrant_address' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'I1', 'registrant_city' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'J1', 'registrant_state' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'K1', 'registrant_zip' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'L1', 'registrant_country' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'M1', 'registrant_email' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'N1', 'registrant_phone' );
-		$this->excel->getActiveSheet ()->setCellValue ( 'O1', 'registrant_fax' );
-		$this->excel->getActiveSheet ()->getStyle ( 'P1' )->applyFromArray ( $styleArray );
-		$this->excel->getActiveSheet ()->setCellValue ( 'P1', 'error_list' );
-		
-		$rowStart = 2;
-		$count = count ( $errRecords );
-		
-		for($rec = 0; $rec < $count; $rec ++) {
-			$this->excel->getActiveSheet ()->setCellValue ( 'A' . $rowStart, $errRecords [$rec] [0] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'B' . $rowStart, $errRecords [$rec] [1] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'C' . $rowStart, $errRecords [$rec] [2] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'D' . $rowStart, $errRecords [$rec] [3] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'E' . $rowStart, $errRecords [$rec] [4] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'F' . $rowStart, $errRecords [$rec] [5] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'G' . $rowStart, $errRecords [$rec] [6] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'H' . $rowStart, $errRecords [$rec] [7] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'I' . $rowStart, $errRecords [$rec] [8] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'J' . $rowStart, $errRecords [$rec] [9] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'K' . $rowStart, $errRecords [$rec] [10] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'L' . $rowStart, $errRecords [$rec] [11] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'M' . $rowStart, $errRecords [$rec] [12] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'N' . $rowStart, $errRecords [$rec] [13] );
-			$this->excel->getActiveSheet ()->setCellValue ( 'O' . $rowStart, $errRecords [$rec] [14] );
-			$this->excel->getActiveSheet ()->getStyle ( 'P' . $rowStart )->applyFromArray ( $styleArray );
-			$this->excel->getActiveSheet ()->setCellValue ( 'P' . $rowStart, "Domain already exists" );
-			
-			$rowStart ++;
-		}
-		
-		$objWriter = PHPExcel_IOFactory::createWriter ( $this->excel, 'Excel5' );
-		$error_file_path = './' . EXCEL_FILE . "random" . '.xls';
-		$objWriter->save ( $error_file_path );
-		
-		return $error_file_path;
 	}
 	
 	/**
@@ -814,7 +654,7 @@ class Import extends BaseController {
 				$pdf->SetTitle ( "" );
 				$pdf->SetSubject ( 'Requirement Document for ' );
 				
-				$logo = 'logo3.png';
+				$logo = 'logo100.png';
 				
 				// set default header data
 				// $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);

@@ -1,5 +1,5 @@
 <?php
-require APPPATH . '/third_party/screen-master/vendor/autoload.php';
+require APPPATH . '/third_party/vendor/autoload.php';
 
 /**
  * Class : Cron
