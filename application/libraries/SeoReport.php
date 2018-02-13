@@ -1,7 +1,7 @@
 <?php if (! defined ( 'BASEPATH' ))	exit ( 'No direct script access allowed' );
 
-require APPPATH . '/third_party/tcpdf/tcpdf.php';
-require APPPATH . '/third_party/tcpdf/mypdf.php';
+require APPPATH . '/third_party/vendor/autoload.php';
+require APPPATH . '/libraries/mypdf.php';
 
 /**
  * Class Seo_Report

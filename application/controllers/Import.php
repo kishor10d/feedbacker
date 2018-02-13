@@ -4,9 +4,7 @@ if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
 require APPPATH . '/libraries/BaseController.php';
-require APPPATH . '/third_party/tcpdf/tcpdf.php';
-require APPPATH . '/third_party/tcpdf/mypdf.php';
-require APPPATH . '/third_party/spreadparser/autoload.php';
+require APPPATH . '/third_party/vendor/autoload.php';
 
 use Akeneo\Component\SpreadsheetParser\SpreadsheetParser;
 

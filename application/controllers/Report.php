@@ -2,8 +2,8 @@
 
 
 require APPPATH . '/libraries/BaseController.php';
-require APPPATH . '/third_party/tcpdf/tcpdf.php';
-require APPPATH . '/third_party/tcpdf/mypdf.php';
+require APPPATH . '/third_party/vendor/autoload.php';
+require APPPATH . '/libraries/mypdf.php';
 
 /**
  * @filesource : Report.php

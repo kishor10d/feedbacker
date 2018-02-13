@@ -1,8 +1,0 @@
-.idea/
-
-vendor/
-#composer.lock
-jobs/*.js
-
-demo/test.*
-test.php
