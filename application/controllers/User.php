@@ -27,7 +27,7 @@ class User extends BaseController
      */
     public function index()
     {
-        $this->global['pageTitle'] = 'CodeInsect : Dashboard';
+        $this->global['pageTitle'] = 'Feedbacker : Dashboard';
 
 		$data ["finalizeCount"] = $this->cms_model->getCustomerCountByStatus ( FINALS, $this->role, $this->vendorId );
 		$data ["processedCount"] = $this->cms_model->getCustomerCountByStatus ( PROCESSED, $this->role, $this->vendorId );

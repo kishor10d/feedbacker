@@ -17,10 +17,8 @@ class Caching extends BaseController {
 			$this->loadThis ();
 		} else {
 			
-			$this->global ['pageTitle'] = 'CodeInsect : Cache Management';
-			$this->load->view("includes/header", $this->global);
-			$this->load->view("caching");
-			$this->load->view("includes/footer");
+			$this->global ['pageTitle'] = 'Feedbacker : Cache Management';
+			$this->loadViews("caching", $this->global, NULL, NULL);
 		}
 	}
 	

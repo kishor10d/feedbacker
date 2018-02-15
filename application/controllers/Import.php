@@ -52,10 +52,7 @@ class Import extends BaseController {
 			$data ['countries'] = $this->import_model->getDistictCountries ();
 			
 			$this->global ['pageTitle'] = 'Feedbacker : Imported Data';
-			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "importedData", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("importedData", $this->global, $data, NULL);
 		}
 	}
 	
@@ -67,10 +64,7 @@ class Import extends BaseController {
 			$this->loadThis ();
 		} else {
 			$this->global ['pageTitle'] = 'Feedbacker : Import Raw Data';
-			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "importing" );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("importing", $this->global, NULL, NULL);
 		}
 	}
 	
@@ -313,11 +307,8 @@ class Import extends BaseController {
 			$data ['executives'] = $this->import_model->getExecutives ();
 			$data ['countries'] = $this->import_model->getDistictCountries ();
 
-			$this->global ['pageTitle'] = 'Feedbacker : Import Raw Data';
-			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "assign", $data );
-			$this->load->view ( "includes/footer" );
+			$this->global ['pageTitle'] = 'Feedbacker : Assign Customers to Executives';
+			$this->loadViews("assign", $this->global, $data, NULL);
 		}
 	}
 	
@@ -348,9 +339,8 @@ class Import extends BaseController {
 	 * This function used to get customer information
 	 * @param unknown $cust_id
 	 */
-	function rawCustomer($cust_id = NULL) {
-		$this->global ['pageTitle'] = 'Feedbacker : Import Raw Data';
-		
+	function rawCustomer($cust_id = NULL)
+	{	
 		$data ["rawCustomer"] = $this->import_model->getRawCustomer ( $cust_id );
 		$data ["fupCustomer"] = $this->import_model->getCustomerFollow ( $cust_id );
 		$data ["reqCustomer"] = $this->import_model->getCustomerReq ( $cust_id );
@@ -385,9 +375,8 @@ class Import extends BaseController {
 			die; */
 		}
 		
-		$this->load->view ( "includes/header", $this->global );
-		$this->load->view ( "custDetails", $data );
-		$this->load->view ( "includes/footer" );
+		$this->global ['pageTitle'] = 'Feedbacker : Customer Details';
+		$this->loadViews("custDetails", $this->global, $data, NULL);
 	}
 	
 	/**
@@ -410,13 +399,11 @@ class Import extends BaseController {
 			
 			$data ['rawRecords'] = $this->import_model->rawCustomerListing ( $searchText, NULL, $searchStatus, $returns ["page"], $returns ["segment"] );
 			
-			$this->global ['pageTitle'] = 'Feedbacker : Raw Customers Data';
+			$this->global ['pageTitle'] = 'Feedbacker : Raw Customers Listing';
 			$data ["listType"] = "Raw";
 			$data ["paginationUrl"] = "rawCustomerListing/";
 			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "rawCustomers", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("rawCustomers", $this->global, $data, NULL);
 		}
 	}
 	
@@ -437,13 +424,11 @@ class Import extends BaseController {
 		
 		$data ['rawRecords'] = $this->import_model->rawCustomerListing ( $searchText, $this->vendorId, $searchStatus, $returns ["page"], $returns ["segment"] );
 		
-		$this->global ['pageTitle'] = 'Feedbacker : Raw Customers Data';
+		$this->global ['pageTitle'] = 'Feedbacker : Raw Customers List';
 		$data ["listType"] = "Raw";
 		$data ["paginationUrl"] = "rawListing/";
 		
-		$this->load->view ( "includes/header", $this->global );
-		$this->load->view ( "rawCustomers", $data );
-		$this->load->view ( "includes/footer" );
+		$this->loadViews("rawCustomers", $this->global, $data, NULL);
 	}
 	
 	/**
@@ -835,9 +820,7 @@ class Import extends BaseController {
 			
 			$data ["employeeList"] = $this->import_model->getEmployeesList();
 		
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "followCustomers", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("followCustomers", $this->global, $data, NULL);
 		}
 	}
 	
@@ -867,9 +850,7 @@ class Import extends BaseController {
 		$data ["listType"] = "Follow Up";
 		$data ["paginationUrl"] = "followListing/";
 		
-		$this->load->view ( "includes/header", $this->global );
-		$this->load->view ( "followCustomers", $data );
-		$this->load->view ( "includes/footer" );
+		$this->loadViews("followCustomers", $this->global, $data, NULL);
 	}
 	
 	/**

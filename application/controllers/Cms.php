@@ -52,9 +52,7 @@ class Cms extends BaseController {
 			
 			$this->global ['pageTitle'] = 'Feedbacker : Email Templates';
 			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "emailTemplates", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("emailTemplates", $this->global, $data, NULL);
 		}
 	}
 	
@@ -76,9 +74,7 @@ class Cms extends BaseController {
 			
 			$this->global ['pageTitle'] = 'Feedbacker : Edit Email Templates';
 			
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "editTemplate", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("editTemplate", $this->global, $data, NULL);
 		}
 	}
 	
@@ -127,10 +123,9 @@ class Cms extends BaseController {
 			$count = $this->cms_model->companyListingCount ( $searchText );
 			$returns = $this->paginationCompress ( "companyListing/", $count, 10 );
 			$data ['rawRecords'] = $this->cms_model->companyListing ( $searchText, $returns ["page"], $returns ["segment"] );
+
 			$this->global ['pageTitle'] = 'Feedbacker : Company Listing';
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "companyListing", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("companyListing", $this->global, $data, NULL);
 		}
 	}
 	
@@ -148,10 +143,8 @@ class Cms extends BaseController {
 			$returns = $this->paginationCompress ( "attachmentListing/", $count, 10 );
 			$data ['rawRecords'] = $this->cms_model->attachmentListing ( $searchText, $returns ["page"], $returns ["segment"] );
 			
-			$this->global ['pageTitle'] = 'Feedbacker : Company Listing';
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "attachmentListing", $data );
-			$this->load->view ( "includes/footer" );
+			$this->global ['pageTitle'] = 'Feedbacker : Attachment Listing';
+			$this->loadViews("attachmentListing", $this->global, $data, NULL);
 		}
 	}
 	
@@ -167,9 +160,7 @@ class Cms extends BaseController {
 			$data ["rawData"] = $this->cms_model->getAttachmentDataById ( $atId );
 			
 			$this->global ['pageTitle'] = 'Feedbacker : Edit Attachment';
-			$this->load->view ( "includes/header", $this->global );
-			$this->load->view ( "editAttachment", $data );
-			$this->load->view ( "includes/footer" );
+			$this->loadViews("editAttachment", $this->global, $data, NULL);
 		}
 	}
 	
