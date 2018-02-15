@@ -18,7 +18,7 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>CodeInsect</b><br>Admin System</a>
+        <a href="#"><b>CodeInsect</b><br><strong>F</strong>eed<strong>B</strong>acker</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Forgot Password</p>
