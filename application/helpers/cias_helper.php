@@ -174,4 +174,33 @@ if(!function_exists('getBrowserAgent'))
     }
 }
 
+if(!function_exists('resetPasswordEmail'))
+{
+    function resetPasswordEmail($detail)
+    {
+        $data["data"] = $detail;
+        // pre($detail);
+        // die;
+        
+        $CI = setProtocol();        
+        
+        $CI->email->from(EMAIL_FROM, FROM_NAME);
+        $CI->email->subject("Reset Password");
+        $CI->email->message($CI->load->view('email/resetPassword', $data, TRUE));
+        $CI->email->to($detail["email"]);
+        $status = $CI->email->send();
+        
+        return $status;
+    }
+}
+
+if(!function_exists('setFlashData'))
+{
+    function setFlashData($status, $flashMsg)
+    {
+        $CI = get_instance();
+        $CI->session->set_flashdata($status, $flashMsg);
+    }
+}
+
 ?>
