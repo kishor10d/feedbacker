@@ -50,14 +50,30 @@ if(!empty($rawData))
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="compName">Company Name</label>
-                                        <input type="text" class="form-control" id="compName" placeholder="Company Name" disabled="disabled" name="compName" value="<?php echo $compName; ?>" maxlength="128">
+                                        <label for="company">Company Name</label>
+                                        <select id="company" name="company" class="form-control">
+                                            <?php
+                                            foreach ($companyData as $c) {
+                                                ?>
+                                                <option value="<?php echo $c->comp_id; ?>" <?php if($c->comp_id == $compId) {echo "selected=selected";} ?>><?php echo $c->comp_name; ?></option> 
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="tempName">Attachment Type</label>
-                                        <input type="text" class="form-control" id="atType" placeholder="Attachment Type" disabled="disabled" name="atType" value="<?php echo $atType; ?>" maxlength="128">
+                                        <select id="tempName" name="tempName" class="form-control">
+                                            <?php
+                                            foreach ($attchmentTypes as $at) {
+                                                ?>
+                                                <option value="<?php echo $at->at_type_id; ?>" <?php if($at->at_type_id == $atTypeId) {echo "selected=selected";} ?>><?php echo $at->at_type; ?></option> 
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
                                         <input type="hidden" value="<?php echo $atId; ?>" name="atId" />    
                                     </div>
                                 </div>
@@ -66,7 +82,7 @@ if(!empty($rawData))
                                 <div class="col-md-12">
                                     <div class="form-group">
                                     	<label for="attFile">Attachment File <span class="asterisk">*</span></label>
-                                    	<input type="file" class="required" id="attFile" name="attFile" />
+                                    	<input type="file" id="attFile" name="attFile" />
                                     </div>
                                 </div>                              
                             </div>
@@ -109,12 +125,10 @@ if(!empty($rawData))
                 </div>
             </div>
         </div>
-        <!-- 
         <div class="row">
 			<div class="col-md-8">
 				<embed src="<?php echo base_url().ATTACHMENT_PATH.$atPath ?>" width="100%" height="800">
 			</div>
 		</div>
-		 -->   
     </section>
 </div>

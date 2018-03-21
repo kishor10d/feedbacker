@@ -157,6 +157,8 @@ class Cms extends BaseController {
 		if ($this->isAdmin () == TRUE) {
 			$this->loadThis ();
 		} else {
+			$data ["companyData"] = $this->cms_model->getCompanies();
+			$data ["attchmentTypes"] = $this->cms_model->getAttachmentTypes();
 			$data ["rawData"] = $this->cms_model->getAttachmentDataById ( $atId );
 			
 			$this->global ['pageTitle'] = 'Feedbacker : Edit Attachment';
@@ -174,6 +176,8 @@ class Cms extends BaseController {
 			$this->load->library ( "form_validation" );
 			
 			$this->form_validation->set_rules ( "atId", "Attachment Id", "numeric|required" );
+			$this->form_validation->set_rules ( "company", "Company", "required");
+			$this->form_validation->set_rules ( "tempName", "Attachment Type", "required");
 			$this->form_validation->set_rules ( "attFile", "Attachment File", "callback_uploadAttachment" );
 			
 			if ($this->form_validation->run () == FALSE) {
@@ -181,12 +185,18 @@ class Cms extends BaseController {
 			} else {
 				$attFile = $this->input->post ( "attFile" );
 				$atId = $this->input->post ( "atId" );
+				$atType = $this->input->post ( "tempName" );
+				$companyId = $this->input->post ( "company" );
 				
 				$data = array (
-						"at_path" => $attFile,
+						"comp_id"=>$companyId,
+						"at_type_id"=>$atType,
 						"updated_by" => $this->vendorId,
 						"updated_dtm" => date ( "Y-m-d H:i:s" ) 
 				);
+
+				if(!empty($attFile)) { $data["at_path"] = $attFile; }
+
 				$result = $this->cms_model->updateAttachment ( $data, $atId );
 				
 				if ($result) {
@@ -195,7 +205,7 @@ class Cms extends BaseController {
 					$this->session->set_flashdata ( 'error', 'Attachment updation failed' );
 				}
 				
-				redirect ( $this->agent->referrer () );
+				redirect ( "attachmentListing" );
 			}
 		}
 	}
@@ -247,6 +257,62 @@ class Cms extends BaseController {
 					"status" => false,
 					"data" => "" 
 			) ));
+		}
+	}
+
+	/**
+	 * This function is use to show add attachment view
+	 */
+	function addAttachment() {
+		if ($this->isAdmin () == TRUE) {
+			$this->loadThis ();
+		} else {
+			$data ["companyData"] = $this->cms_model->getCompanies();
+			$data ["attchmentTypes"] = $this->cms_model->getAttachmentTypes();
+			
+			$this->global ['pageTitle'] = 'Feedbacker : Add Attachment';
+			$this->loadViews("addAttachment", $this->global, $data, NULL);
+		}
+	}
+
+	/**
+	 * This function is used to update the attachment
+	 */
+	function addNewAttachment() {
+		if ($this->isAdmin () == TRUE) {
+			$this->loadThis ();
+		} else {
+			$this->load->library ( "form_validation" );
+			
+			$this->form_validation->set_rules ( "company", "Company", "required");
+			$this->form_validation->set_rules ( "tempName", "Attachment Type", "required");
+			$this->form_validation->set_rules ( "attFile", "Attachment File", "callback_uploadAttachment" );
+			
+			if ($this->form_validation->run () == FALSE) {
+				$this->addAttachment();
+			} else {
+				$attFile = $this->input->post ( "attFile" );
+				$atType = $this->input->post ( "tempName" );
+				$companyId = $this->input->post ( "company" );
+				
+				$data = array (
+						"comp_id"=>$companyId,
+						"at_type_id"=>$atType,
+						"at_path" => $attFile,
+						"created_by" => $this->vendorId,
+						"created_dtm" => date ( "Y-m-d H:i:s" ) 
+				);
+
+				$result = $this->cms_model->addNewAttachment ( $data );
+				
+				if ($result) {
+					$this->session->set_flashdata ( 'success', 'Attachment updated successfully' );
+				} else {
+					$this->session->set_flashdata ( 'error', 'Attachment updation failed' );
+				}
+				
+				redirect ( "attachmentListing" );
+			}
 		}
 	}
 }

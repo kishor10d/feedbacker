@@ -368,5 +368,45 @@ class Cms_model extends CI_Model {
 		$result = $query->result ();
 		return $result[0]->count;
 	}
+
+	/**
+	 * This function is used to get company list
+	 */
+	function getCompanies()
+	{
+		$this->db->select ( "comp_id, comp_name" );
+		$this->db->where ( "is_deleted", 0);
+		$query = $this->db->get ( "fb_company" );
+		$result = $query->result ();
+
+		return $result;
+	}
+
+	/**
+	 * This function is used to get attachment type
+	 */
+	function getAttachmentTypes()
+	{
+		$this->db->select ( "at_type_id, at_type" );
+		$this->db->where ( "is_deleted", 0);
+		$query = $this->db->get ( "fb_attach_type" );
+		$result = $query->result ();
+
+		return $result;
+	}
+
+	/**
+	 * This function used to save attachment details
+	 * @param array $attachmentData
+	 */
+	function addNewAttachment($attachmentData)
+	{
+		$this->db->trans_start();
+		$this->db->insert("fb_attachments", $attachmentData);
+		$insert_id = $this->db->insert_id();
+		$this->db->trans_complete();
+
+		return $insert_id;
+	}
 }
 

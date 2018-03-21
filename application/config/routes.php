@@ -151,6 +151,9 @@ $route ["attachmentListing/(:num)"] = "cms/attachmentListing/$1";
 $route ["editAttachment/(:num)"] = "cms/editAttachment/$1";
 $route ["updateAttachment"] = "cms/updateAttachment";
 
+$route ["addAttachment"] = "cms/addAttachment";
+$route ["addNewAttachment"] = "cms/addNewAttachment";
+
 $route ["getTemplateByCompId"] = "cms/getTemplateByCompId";
 
 /**

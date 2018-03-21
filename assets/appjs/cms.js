@@ -30,13 +30,24 @@ jQuery(document).ready(function(){
 	
 	var editAttachValidator = editAttach.validate({
 		rules:{
-			attFile :{ required : true, extension : "pdf" }
+			attFile :{ extension : "pdf" }
+		},
+		messages:{
+			attFile :{ extension : "Select files with extension PDF only"}
+		}
+	});
+	
+	var addAttach = $("#addAttachment");
+	
+	var addAttachValidator = addAttach.validate({
+		rules:{
+			attFile :{ required : true,  extension : "pdf" }
 		},
 		messages:{
 			attFile :{ required : "You must select a file to upload", extension : "Select files with extension PDF only"}
 		}
 	});
-	
+
 	tinymce.init({
         selector:'#emailHTML',
         toolbar_items_size: 'small',
