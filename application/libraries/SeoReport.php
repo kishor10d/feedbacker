@@ -17,7 +17,7 @@ class SeoReport{
 	protected $start = null;
 	protected $end = null;
 	
-	function SeoReport($url = ""){
+	function __construct($url = ""){
 		$this->url = $url;
 	}
 	

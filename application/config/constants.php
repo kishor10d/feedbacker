@@ -145,4 +145,4 @@ define ( 'DEAD', '4' );
  * ****** API Keys *******************
  */
 define ( 'GMAP_API_KEY', 'AIzaSyAmiVf-dkxWQLPMxiwnH2VO1nnI0wx2orA' );
-define ( "GEO_CODE_URL", "https://maps.googleapis.com/maps/api/geocode/json?");
+define ( "GEO_CODE_URL", "https://maps.googleapis.com/maps/api/geocode/json?address=");

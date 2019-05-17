@@ -351,11 +351,9 @@ class Import extends BaseController {
 		
 		/* $address = $data ["rawCustomer"][0]->registrant_address." ".$data ["rawCustomer"][0]->registrant_city." ".$data ["rawCustomer"][0]->registrant_state." ".$data ["rawCustomer"][0]->registrant_country." ".$data ["rawCustomer"][0]->registrant_zip; */
 		$address = $data ["rawCustomer"][0]->registrant_city." ".$data ["rawCustomer"][0]->registrant_state." ".$data ["rawCustomer"][0]->registrant_country." ".$data ["rawCustomer"][0]->registrant_zip;
-		$geoData = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
+		$geoData = file_get_contents(GEO_CODE_URL.urlencode($address).'&key='.GMAP_API_KEY);
 		$geoDatos = json_decode($geoData, true);
-		
-		/* pre($geoDatos);
-		die; */
+		// pre($geoDatos);die;
 		
 		$data["lat"] = 0;
 		$data["lng"] = 0;
