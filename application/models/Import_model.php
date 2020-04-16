@@ -570,4 +570,51 @@ class Import_model extends CI_Model
     	$this->db->where("status", RAW);
     	$this->db->update("fb_raw_cust");
     }
+
+
+    function makeQuery()
+    {
+        $order_column = ['fbt_name', 'fp_next_call', 'fp_summary'];
+        $this->db->select("FBType.fbt_name, BaseTbl.fp_next_call, BaseTbl.fp_summary");
+        $this->db->from('fb_cust_followup as BaseTbl');
+        $this->db->join('fb_fbtype as FBType', 'FBType.fbt_id = BaseTbl.fbt_id', "left");
+        if(isset($_POST['search']['value'])){
+            $this->db->like("FBType.fbt_name", $_POST['search']['value']);
+            // $this->db->or_like("last_name", $_POST['search']['value']);
+        }
+
+        if(isset($_POST["order"])){
+            $this->db->order_by($order_column[$_POST["order"]["0"]["column"]], $_POST["order"]["0"]["dir"]);
+        }
+        else {
+            $this->db->order_by("BaseTbl.fp_id", "DESC");
+        }
+    }
+
+    function makeFollowupDataTable()
+    {
+        $this->makeQuery();
+
+        if($_POST["length"] != -1){
+            $this->db->limit($_POST["length"], $_POST["start"]);
+            // $this->db->limit(5, $_POST["start"]);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function getFilteredData() {
+        $this->makeQuery();
+        $query = $this->db->get();
+
+        return $query->num_rows();
+
+    }
+
+    function getFollowupCount(){
+        $table = 'fb_cust_followup';
+        $this->db->select("*");
+        $this->db->from($table);
+        return $this->db->count_all_results();
+    }
 }

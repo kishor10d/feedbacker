@@ -427,6 +427,17 @@ if (! empty ( $reqCustomer )) {
 									</form>
 								</div>
 							</div>
+							<div class="table-responsive">
+								<table id="customer_followup_data" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th width="20%">Feedback Type</th>
+											<th width="20%">Next Call DateTime</th>
+											<th width="60%">Call Summary</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
                             <?php
 							if (! empty ( $fupCustomer )) {
 							?>
@@ -619,6 +630,8 @@ if (! empty ( $reqCustomer )) {
 	</div>
 	<!-- /.modal-dialog -->
 </div>
+<script type="text/javascript" src="<?php echo base_url().PLUGINS_FULL."datatables/jquery.dataTables.min.js?".VER;?>"></script>
+<script type="text/javascript" src="<?php echo base_url().PLUGINS_FULL."datatables/dataTables.bootstrap.min.js?".VER;?>"></script>
 <script	type="text/javascript">
 var offset = "<?php echo $timeZone["rawOffset"]; ?>";
 var dstOffset = "<?php echo $timeZone["dstOffset"]; ?>";
@@ -645,5 +658,20 @@ $(document).ready(function(){
 	
 	/* var coolClass = "CoolClock::60::"+( offset / (60*60));
 	$("#world").addClass(coolClass); */
+	var dataTable = $("#customer_followup_data").DataTable({
+        "processing": true,
+        "serverSide":true, 
+        "order": [],
+        "ajax": {
+            url : "<?php echo base_url(). 'getCustomerFollowupData'?>",
+            type : "POST"
+        },
+        "columnDefs" : [
+            {
+                "targets": [2],
+                "orderable" : false
+            }
+        ]
+    });
 });
 </script>

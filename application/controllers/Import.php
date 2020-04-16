@@ -880,4 +880,32 @@ class Import extends BaseController {
 		
 		echo(json_encode(array("image"=>base64_encode($domain_name). ".jpg")));
 	}
+
+
+	function getCustomerFollowupData()
+	{
+		$fetch_data = $this->import_model->makeFollowupDataTable();
+
+		$data = array();
+		
+		foreach($fetch_data as $row){
+            $sub_array = array();
+            $sub_array[] = $row->fbt_name;
+			$sub_array[] = $row->fp_next_call;
+			$sub_array[] = $row->fp_summary;
+            // $sub_array[] = '<button type="button" name="update" id="'.$row->id.'" class="btn btn-warning btn-xs">Update</button>';
+            // $sub_array[] = '<button type="button" name="delete" id="'.$row->id.'" class="btn btn-danger btn-xs">Delete</button>';
+
+            $data[] = $sub_array;
+		}
+		
+		$output = array(
+            "draw"              => intval($_POST['draw']),
+            "recordsTotal"      => $this->import_model->getFollowupCount(),
+            "recordsFiltered"   => $this->import_model->getFilteredData(),
+            "data"              => $data
+        );
+
+        echo(json_encode($output));
+	}
 }

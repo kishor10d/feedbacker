@@ -19,6 +19,7 @@
     <link href="<?php echo $plugins."datepicker/datepicker3.css?".VER; ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo $plugins."timepicker/bootstrap-timepicker.min.css?".VER; ?>" rel="stylesheet" type="text/css" >
     <link href="<?php echo $plugins."bootstrap-editable/css/bootstrap-editable.css?".VER; ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $plugins."datatables/dataTables.bootstrap.css?".VER; ?>" rel="stylesheet" type="text/css" />
     
     <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />

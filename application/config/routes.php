@@ -134,6 +134,8 @@ $route ['followListing/(:num)'] = "import/followListing/$1";
 
 $route ['refreshDomainData'] = "import/refreshDomainData";
 
+$route ['getCustomerFollowupData'] = "import/getCustomerFollowupData";
+
 
 /**
  * ********* CMS ROUTES **************
