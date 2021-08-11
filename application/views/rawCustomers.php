@@ -66,7 +66,7 @@
                         ?>
                         <tr>
                             <td class="alignLeft">
-                                <a target="_blank" href="<?php echo $httpDomain ?>">
+                                <a href="<?php echo base_url().'rawCustomer/'.$record->cust_id; ?>" >
                                     <?php echo $record->domain_name ?>
                                 </a>
                                 <br>
@@ -80,6 +80,8 @@
                                         default : ?><span class="label label-default">RAW</span><?php
                                     }
                                 ?>
+								<br><br>
+								<a target="_blank" href="<?php echo $httpDomain ?>"><button class="btn btn-primary btn-sm"><i class="fa fa-external-link" aria-hidden="true"></i> Visit </button></a>
                             </td>
                             <td class="td15 alignLeft td-wrap"><?php echo $record->registrant_email ?></td>
                             <td class="alignLeft"><?php echo $record->registrant_phone ?></td>
@@ -98,7 +100,12 @@
                             	<a href="#" class="refreshIt" data-custId="<?php echo $record->cust_id ?>" data-domainName="<?php echo $httpDomain ?>">
                             		<i id="refreshSpinner_<?php echo $record->cust_id ?>" class="fa fa-refresh fa-fw"></i></a>
                             	&nbsp;&nbsp;
-                                <a href="<?php echo base_url().'rawCustomer/'.$record->cust_id; ?>"><i class="fa fa-pencil"></i></a>
+                                <!-- <a href="<?php echo base_url().'rawCustomer/'.$record->cust_id; ?>"><i class="fa fa-pencil"></i></a> -->
+								<a href="<?php echo base_url().'rawCustomer/'.$record->cust_id; ?>">
+									<button class="btn btn-warning btn-md" id="refresh" data-custid="4" data-domainname="https://www.mangalashtak.com/"> 
+										<i class="fa fa-pencil"></i>
+									</button>
+								</a>
                             </td>                       
                         </tr>
                         <?php
